@@ -1,0 +1,29 @@
+{
+  "name": "time-until",
+  "version": "1.0.4",
+  "authors": [
+    "Patricio López <patricio@lopezjuri.com>",
+    "Sebastián Salata <SA.SalataRT@GMail.com>"
+  ],
+  "description": "An element providing a countdown for an event.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "time-until"
+  ],
+  "main": "time-until.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/IIC3585-2015-2/Grupo-3/tree/master/05-Polymer/time-until",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "paper-material": "PolymerElements/paper-material#~1.0.4"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}
