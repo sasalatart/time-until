@@ -1,0 +1,140 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+<!--
+An element providing a countdown for an event.
+
+Example:
+
+    <time-until day="25" month="12" year="2015" title="Christmas"></time-until>
+
+@element time-until
+@demo demo/index.html
+-->
+
+<dom-module id="time-until">
+  <template>
+    <style>
+      h1, h3 {
+        display: flex;
+        justify-content: center;
+        font-family: 'Open Sans', sans-serif;
+      }
+    </style>
+
+    <paper-material elevation="1">
+      <h1>{{title}}</h1>
+      <h3>{{countdown}}</h3>
+    </paper-material>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'time-until',
+
+      properties: {
+        /**
+          * The title of the event.
+          */
+        title: {
+          type: String,
+          value: ""
+        },
+
+        /**
+          * The processed input date, in ms (calculated by the element).
+          */
+        dateInput: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+          * The day of the month of the event (i.e. 25).
+          */
+        day: {
+          type: Number,
+          value: 1
+        },
+
+        /**
+          * The month of the year of the event (i.e. 12).
+          */
+        month: {
+          type: Number,
+          value: 1
+        },
+
+        /**
+          * The year of the event (i.e. 2015).
+          */
+        year: {
+          type: Number,
+          value: 2050
+        },
+
+        /**
+          * The countdown itself (i.e. 55 days 12 hours 25 minutes 10 seconds).
+          */
+        countdown: {
+          type: String,
+          value: ""
+        }
+      },
+
+      /**
+        * Fired once the element and its parents have been inserted into the
+        * document.
+        */
+      attached: function() {
+        if (this.day < 1 || this.day > 31) { this.day = 1; }
+        if (this.month < 1 || this.month > 12) { this.month = 1; }
+        if (this.year < 2015) { this.year = 2050; }
+        this.dateInput = new Date(this.month + "/" + this.day + "/" + this.year);
+
+        if (this.title === null || this.title === "") {
+          this.title = "Time Until " + this.month + "/" + this.day + "/" + this.year;
+        }
+
+        this.startInterval();
+      },
+
+      /**
+        * Interval. It will refresh the countdown every second.
+        */
+      startInterval: function() {
+        var self = this;
+        var day = 1000 * 60 * 60 * 24;
+        var hour = 1000 * 60 * 60;
+        var minute = 1000 * 60;
+        var second = 1000;
+
+        setInterval(function() {
+          var diff = self.dateInput - Date.now();
+          var days = Math.floor(diff/day);
+
+          diff = diff % day;
+          var hours = Math.floor(diff/hour);
+          diff = diff % hour;
+          var minutes = Math.floor(diff/minute);
+          diff = diff % minute;
+          var seconds = Math.floor(diff/second);
+
+          self.countdown = days + " days " + hours + " hours " + minutes +
+                             " minutes " + seconds + " seconds";
+        }, 1000);
+      }
+    });
+  </script>
+</dom-module>
